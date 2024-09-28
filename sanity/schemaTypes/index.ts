@@ -19,7 +19,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
           experienceType,
           workType,
           skillsType,
-          testimonialType,
+          // testimonialType,
           // badgesType,
           contactType,
           blockContentType, categoryType, postType, authorType

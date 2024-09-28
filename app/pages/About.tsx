@@ -2,8 +2,11 @@ import React from 'react'
 
 const About = () => {
   return (
-    <div><h2 style={{ fontSize: '30px' }}>About me!</h2></div>
-  )
-}
+    <div>
+      <h1>About Me</h1>
+      <p>This is the About page content.</p>
+    </div>
+  );
+};
 
-export default About
+export default About;

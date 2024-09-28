@@ -29,6 +29,7 @@ export default defineConfig({
       logo : StudioLogo,
     }
   },
+  
   plugins: [
     structureTool({structure}),
     // Vision is for querying with GROQ from inside the Studio
