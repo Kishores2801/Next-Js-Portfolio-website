@@ -1,3 +1,4 @@
+import { GlareCard } from '@/components/ui/glare-card';
 import React from 'react'
 
 const About = () => {
@@ -10,3 +11,4 @@ const About = () => {
 };
 
 export default About;
+

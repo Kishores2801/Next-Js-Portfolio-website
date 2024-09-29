@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { SunIcon, LinkedinIcon, GithubIcon } from '../icons';
 import Head from "../../app/(user)/head";
 
+
 // Define the navLinks array
 export const navLinks = [
   { name: "Home", path: '/' },
@@ -17,7 +18,7 @@ export const navLinks = [
 
 const Header = ({ selectedSection, setSelectedSection }) => {
   return (
-    <header className="w-full p-4 px-10 flex items-center justify-between ">
+    <header className="w-full p-4 px-10 flex items-center justify-between">
       {/* Logo */}
       <Logo />
 
