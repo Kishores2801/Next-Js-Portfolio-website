@@ -1,0 +1,20 @@
+### Next JS portfolio Website and Blog
+Here we are creating a next JS portfolio site and a blog page which is being powered by Sanity and user interface is built from a **Acentry UI**, **Framer motion** for making it easier to program.
+
+Concept: 
+ - Blog -  FreeCode Camp blog page Next JS and back end is Sonny Sangha sanity and next JS blog.
+ - Portfolio - Sonny Sangha portfolio with sanity (major Inspiration), java mastery secondary.
+
+Features:
+- Light and Dark Interface
+- Floating nav bar
+- Grid Background (user interface)
+- Responsive Design
+- Typewriter effect
+- Framer motion
+- Sanity backend to keep the and release based on requirement.
+
+
+Sections included:
+- Header - includes float Navbar, Social and a logo Data Grid(blog name)
+- Hero Section - Giving an introduction. (rounded image, with blue and )
