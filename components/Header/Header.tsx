@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { SocialIcon } from 'react-social-icons';
 
 import { FloatingNav } from '../ui/floating-navbar';
-import { FaHome, FaUser } from "react-icons/fa";
+import { FaHome, FaUser, FaPhoneAlt, FaBlogger } from "react-icons/fa";
 import { MdOutlineWork } from "react-icons/md";
 import { GiSkills } from "react-icons/gi";
 import { GoProject } from "react-icons/go";
@@ -16,6 +16,7 @@ function Header({}: Props) {
   return (
     <header className='fixed top-0 left-0 w-full z-50 p-4 px-10 flex items-center justify-between bg-light/60 backdrop-blur-[2px]'>
       {/* Logo */}
+      
       <Logo />
 
       <div>
@@ -26,6 +27,8 @@ function Header({}: Props) {
             { name: "WorkExperience", link: "#experience", icon: <MdOutlineWork /> },
             { name: "Skills", link: "#skills", icon: <GiSkills /> },
             { name: "Projects", link: "#project", icon: <GoProject /> },
+            { name: "Blogs", link: "/blog", icon: <FaBlogger  /> },
+            { name: "Contact", link: "#contact", icon: <FaPhoneAlt  /> },
           ]} />
         </ul>
       </div>

@@ -22,7 +22,6 @@
 .no-visible-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari, and Opera */
 }
-
 /* Global scrollbar styling for WebKit browsers (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
   width: 10px; /* Width of the scrollbar */
@@ -30,12 +29,12 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(240, 240, 240, 0.1); /* More transparent track */
+  background: gray; /* Changed to blue background for the track */
   border-radius: 5px; /* Rounded corners for the track */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(204, 204, 204, 0.3); /* Transparent thumb */
+  background-color: rgb(83, 83, 224); /* Transparent thumb */
   border-radius: 5px; /* More rounded corners for the thumb */
   border: 2px solid rgba(240, 240, 240, 0.2); /* Adds space around the thumb, more transparent */
 }
