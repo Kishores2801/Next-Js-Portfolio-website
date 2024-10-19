@@ -24,7 +24,7 @@ export default function Contact({}: Props) {
 
   return (
     <div className='relative h-full sm:h-screen flex flex-col justify-center items-center text-center md:text-left max-w-7xl px-4 sm:px-6 md:px-8 mx-auto'>
-      <h3 className='mt-4 sm:mt-6 md:mt-8 uppercase tracking-[4px] sm:tracking-[8px] md:tracking-[10px] text-blue-500 text-base sm:text-lg md:text-2xl'>
+      <h3 className='mt-20 sm:mt-6 md:mt-8 uppercase tracking-[4px] sm:tracking-[8px] md:tracking-[10px] text-blue-500 text-base sm:text-lg md:text-2xl'>
         Contact
       </h3>
 

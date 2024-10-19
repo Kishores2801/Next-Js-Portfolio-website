@@ -805,13 +805,6 @@
           }
         },
         "optional": true
-      },
-      "viewCount": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "number"
-        },
-        "optional": true
       }
     }
   },

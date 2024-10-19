@@ -41,7 +41,7 @@ export default function BlogCoverSection({}: Props) {
               width={3600}
               height={800}
               placeholder='blur'
-              blurDataURL={urlFor(post.mainImage).url({ blur: 10 })}
+              blurDataURL={urlFor(post.mainImage).url()}
               className='w-full h-full object-cover object-center'
               priority={true}
             />
@@ -56,9 +56,9 @@ export default function BlogCoverSection({}: Props) {
             
             {/* Post Title */}
             {post.slug && post.title && (
-              <Link href={`/post/${post.slug.current}`}>
+              <Link href={`/post/${post.slug.current}`}> 
                 <h1 className='mt-2 text-xl md:text-3xl font-bold capitalize cursor-pointer hover:underline'>
-                  <span className='bg-gradient-to-r from-blue-300 to-blue-500 bg-[length:0px_6px] hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500'>
+                  <span className='bg-gradient-to-r from-blue-300 to-blue-500 bg-[length:0px_6px] hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-700'>
                     {post.title}
                   </span>
                 </h1>

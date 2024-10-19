@@ -8,7 +8,9 @@ import StudioLogo from './components/Studio Header/StudioLogo';
 import { apiVersion, dataset, projectId } from './sanity/env';
 import { schema } from './sanity/schemaTypes';
 import { structure } from './sanity/structure';
-import { presentationTool } from 'sanity/presentation';
+import { presentationTool } from 'sanity/presentation'
+
+
 
 // Define a type for the Sanity document
 interface SanityDocument {
@@ -46,17 +48,12 @@ export default defineConfig({
     codeInput(),
     visionTool({ defaultApiVersion: apiVersion }),
     presentationTool({
-      
       previewUrl: {
-        origin:
-          typeof location === 'undefined'
-            ? 'http://localhost:3000'
-            : location.origin,
-        draftMode: {
-          enable: '/api/draft',
-          disable: '/api/disable-draft',
+        previewMode: {
+          enable: '/api/draft-mode/enable',
         },
       },
     }),
+ 
   ],
 });

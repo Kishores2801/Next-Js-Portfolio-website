@@ -11,7 +11,6 @@ export const postType = defineType({
       name: 'title',
       type: 'string',
     }),
-
     defineField({
       name: 'description',
       type: 'string',
@@ -39,8 +38,8 @@ export const postType = defineType({
           name: 'alt',
           type: 'string',
           title: 'Alternative text',
-        }
-      ]
+        },
+      ],
     }),
     defineField({
       name: 'categories',
@@ -50,19 +49,19 @@ export const postType = defineType({
     defineField({
       name: 'publishedAt',
       type: 'datetime',
+      title: 'Published At',
+      initialValue: () => new Date().toISOString(), // Set the current date as default
+      options: {
+        dateFormat: 'YYYY-MM-DD',
+        timeFormat: 'HH:mm',
+      },
     }),
     defineField({
       name: 'body',
       type: 'blockContent',
+      title: 'Body',
     }),
-    // New viewCount field
-    defineField({
-      name: 'viewCount',
-      title: 'View Count',
-      type: 'number',
-      readOnly: true, // Ensure that this field is not manually edited in the CMS
-      initialValue: 0, // Initialize the view count to 0 for new posts
-    }),
+    
   ],
   preview: {
     select: {
@@ -71,8 +70,8 @@ export const postType = defineType({
       media: 'mainImage',
     },
     prepare(selection) {
-      const { author } = selection
-      return { ...selection, subtitle: author && `by ${author}` }
+      const { author } = selection;
+      return { ...selection, subtitle: author && `by ${author}` };
     },
   },
-})
+});
