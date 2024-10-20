@@ -30,54 +30,54 @@ export default function RecentPost({}: Props) {
   }, []);
 
   return (
-    <section className="w-full mt-8 flex flex-col items-center">
-      <div className="w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <h2 className="font-bold capitalize text-2xl sm:text-3xl mb-4 text-center">
+    <section className="w-full flex flex-col items-center mt-12 sm:mt-16 lg:mt-20">
+      <div className="w-full max-w-[1000px] px-6 sm:px-5 lg:px-6">
+        <h2 className="font-bold capitalize text-xl text-black-100 dark:text-blue-500 sm:text-2xl lg:text-3xl mb-4 sm:mb-5 lg:mb-6 text-center">
           Recent Posts
         </h2>
 
         <Link
           href="/categories"
-          className="text-blue-500 hover:underline mb-6 block text-center"
+          className="text-blue-500 hover:underline mb-5 block text-center text-base sm:text-lg"
         >
           View All Categories
         </Link>
 
         {/* Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {posts.map((post) =>
             post && post.mainImage && post.slug ? (
               <motion.div
-                key={post.slug.current} // Ensure unique keys for React mapping
+                key={post.slug.current}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white rounded-2xl shadow-md overflow-hidden"
+                className="bg-white rounded-xl shadow-md overflow-hidden w-full mx-auto max-w-[70%] sm:max-w-sm"
               >
                 {/* Post Image */}
                 <Link href={`/post/${post.slug.current}`} className="relative block">
-                  <div className="relative w-full h-40 sm:h-60">
+                  <div className="relative w-full h-32 sm:h-40 lg:h-48">
                     <Image
                       src={urlFor(post.mainImage).url()}
                       alt={post.title || "Featured Blog"}
                       layout="fill"
                       objectFit="cover"
-                      className="rounded-t-2xl"
+                      className="rounded-t-xl"
                     />
                   </div>
                 </Link>
 
                 {/* Post Tag */}
-                <div className="p-3">
+                <div className="p-2">
                   <Tag />
                 </div>
 
                 {/* Post Details */}
-                <div className="p-3">
+                <div className="p-2">
                   <Link href={`/post/${post.slug.current}`}>
-                    <h3 className="text-black text-[18px] font-semibold bg-gradient-to-r from-blue-300 to-blue-500 bg-[length:0px_3px] hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500">
+                    <h3 className="text-black text-[16px] sm:text-[18px] font-semibold bg-gradient-to-r from-blue-300 to-blue-500 bg-[length:0px_3px] hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500">
                       {post.title}
                     </h3>
                   </Link>

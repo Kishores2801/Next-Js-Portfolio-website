@@ -28,8 +28,8 @@ export default function FeaturedPost({}: Props) {
   }, []);
 
   return (
-    <section className="w-full mt-32 px-8 md:px-16 lg:px-32 flex flex-col items-center justify-center">
-  <h2 className="w-full ml-4 md:ml-8 font-bold capitalize text-2xl sm:text-3xl">
+    <section className="w-full mt-32 px-4 md:px-8 lg:px-16 flex flex-col items-center justify-center">
+  <h2 className="font-bold capitalize text-xl text-black-100 dark:text-blue-500 sm:text-2xl lg:text-3xl mb-4 sm:mb-5 lg:mb-6 text-center">
     Featured Posts
   </h2>
 
@@ -41,11 +41,11 @@ export default function FeaturedPost({}: Props) {
     </article>
 
     {/* BlogLayoutTwo and BlogLayoutThree Stacked */}
-    <div className="flex flex-col space-y-6">
-      <article className="relative h-[300px] md:h-[350px]">
+    <div className="flex flex-col gap-6">
+      <article className="relative h-[180px] md:h-[230px]">
         <BlogLayoutTwo  />
       </article>
-      <article className="relative h-[300px] md:h-[350px]">
+      <article className="relative h-[180px] md:h-[230px]">
         <BlogLayoutThree />
       </article>
     </div>

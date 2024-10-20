@@ -1,20 +1,23 @@
 // ./src/components/Posts.tsx
 
-import { POSTS_QUERYResult } from "../sanity.types";
+import { SanityDocument } from "next-sanity";
+import Link from "next/link";
 
-export function Posts({ posts }: { posts: POSTS_QUERYResult }) {
+export default function Posts({ posts }: { posts: SanityDocument[] }) {
   return (
-    <ul className="container mx-auto grid grid-cols-1 divide-y divide-blue-100">
-      {posts.map((post) => (
-        <li key={post._id}>
-          <a
-            className="block p-4 hover:bg-blue-50"
-            href={`/posts/${post?.slug?.current}`}
+    <main className="container mx-auto grid grid-cols-1 divide-y divide-blue-100">
+      {posts?.length > 0 ? (
+        posts.map((post) => (
+          <Link
+            key={post._id}
+            href={post.slug.current}
           >
-            {post?.title}
-          </a>
-        </li>
-      ))}
-    </ul>
+            <h2 className="p-4 hover:bg-blue-50">{post.title}</h2>
+          </Link>
+        ))
+      ) : (
+        <div className="p-4 text-red-500">No posts found</div>
+      )}
+    </main>
   );
 }

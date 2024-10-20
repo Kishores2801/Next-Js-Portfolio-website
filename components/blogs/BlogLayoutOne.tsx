@@ -36,9 +36,9 @@ export default function BlogLayoutOne({}: Props) {
     <>
       {post && post.mainImage && post.slug && (
         <div className="relative mx-auto w-full max-w-[700px]">
-          {/* Blog Image */}
+          {/* Blog Image and Overlay */}
           <Link href={`/post/${post.slug.current}`} className="block">
-            <div className="relative w-full h-[300px] sm:h-[250px] md:h-[360px] lg:h-[480px] max-h-[600px] rounded-3xl overflow-hidden">
+            <div className="relative w-full h-[300px] sm:h-[150px] md:h-[370px] lg:h-[500px] rounded-3xl overflow-hidden">
               <Image
                 src={urlFor(post.mainImage).url()}
                 alt={post.title || "Featured Blog"}
@@ -46,31 +46,30 @@ export default function BlogLayoutOne({}: Props) {
                 height={800}
                 placeholder="blur"
                 blurDataURL={urlFor(post.mainImage).url()}
-                className="w-full h-full object-cover object-center sm:object-contain"
+                className="w-full h-full object-cover object-center"
                 priority={true}
               />
               {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-950 rounded-3xl" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-950 rounded-3xl z-10" />
+
+              {/* Title and Tag within Image */}
+              <div className="absolute inset-0 flex flex-col justify-end p-6 z-20 space-y-3">
+                {/* Tag Component */}
+                <div className="inline-block uppercase text-cyan-100 font-semibold text-xs sm:text-sm">
+                  <Tag />
+                </div>
+
+                {/* Post Title */}
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold capitalize cursor-pointer text-white">
+                  <Link href={`/post/${post.slug.current}`} className="hover:underline">
+                    <span className="bg-gradient-to-r from-blue-300 to-blue-500 bg-[length:0px_6px] hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500">
+                      {post.title}
+                    </span>
+                  </Link>
+                </h1>
+              </div>
             </div>
           </Link>
-
-          {/* Text and Tag Overlay */}
-          <div className="p-4 sm:p-6 mt-4 space-y-3 sm:space-y-4">
-            {/* Tag Component */}
-            <div className="inline-block uppercase text-cyan-900 dark:text-accentDark font-semibold top-20 text-xs sm:text-sm">
-              <Tag />
-            </div>
-
-            {/* Post Title */}
-            <h1 className="text-lg sm:text-xl md:text-2xl font-bold capitalize cursor-pointer">
-              <Link href={`/post/${post.slug.current}`} className="hover:underline">
-                <span className="bg-gradient-to-r from-blue-300 to-blue-500 bg-[length:0px_6px] hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500">
-   
-                  {post.title}
-                </span>
-              </Link>
-            </h1>
-          </div>
         </div>
       )}
     </>

@@ -1,5 +1,5 @@
-import { DocumentTextIcon } from '@sanity/icons'
-import { defineArrayMember, defineField, defineType } from 'sanity'
+import { DocumentTextIcon } from '@sanity/icons';
+import { defineArrayMember, defineField, defineType } from 'sanity';
 
 export const postType = defineType({
   name: 'post',
@@ -61,7 +61,13 @@ export const postType = defineType({
       type: 'blockContent',
       title: 'Body',
     }),
-    
+    defineField({
+      name: 'readingTime',
+      type: 'number',
+      title: 'Reading Time (minutes)',
+      description: 'Estimated time to read this post.',
+      validation: (Rule) => Rule.min(1).max(60).error('Reading time must be between 1 and 60 minutes.'),
+    }),
   ],
   preview: {
     select: {
@@ -71,7 +77,7 @@ export const postType = defineType({
     },
     prepare(selection) {
       const { author } = selection;
-      return { ...selection, subtitle: author && `by ${author}` };
+      return { ...selection, subtitle: author ? `by ${author}` : 'No author' };
     },
   },
 });

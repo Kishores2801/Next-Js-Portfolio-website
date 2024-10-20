@@ -16,10 +16,7 @@ const nextConfig = {
       ],
     },
 
-    experimental: {
-      taint: true,
-    },
-    
+  
 
     reactStrictMode: true,
     experimental : {

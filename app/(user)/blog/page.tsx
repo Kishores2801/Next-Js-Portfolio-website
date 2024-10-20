@@ -8,11 +8,11 @@ type Props = {}
 
 export default function Blog({}: Props) {
   return (
-    <main className="relative dark:bg-black-100 bg-gray-200 dark:bg-grid-white/[0.035] bg-grid-black/[0.018] text-black dark:text-white flex flex-col overflow-x-hidden z-0">
+    <main className="relative dark:bg-black-100 bg-gray-200 dark:bg-grid-white/[0.035] bg-grid-black/[0.018] text-black dark:to-blue-500 flex flex-col overflow-x-hidden z-0">
         <Header/>
 
       <section className="flex-grow h-full snap-start flex items-center justify-center">
-      <BlogCoverSection />
+            <BlogCoverSection />
       </section>
       <section className="flex-grow h-full snap-start flex items-center justify-center">
             <FeaturedPost />

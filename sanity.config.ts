@@ -8,8 +8,6 @@ import StudioLogo from './components/Studio Header/StudioLogo';
 import { apiVersion, dataset, projectId } from './sanity/env';
 import { schema } from './sanity/schemaTypes';
 import { structure } from './sanity/structure';
-import { presentationTool } from 'sanity/presentation'
-
 
 
 // Define a type for the Sanity document
@@ -19,17 +17,6 @@ interface SanityDocument {
     current: string;
   };
 }
-
-// Define the locate function to work only for blog posts
-const locate = (document: SanityDocument) => {
-  if (document._type === 'blog' && document.slug) {
-    // Return the blog post URL based on slug
-    return `/blog/${document.slug.current}`;
-  }
-
-  // If it's not a blog post, return null
-  return null;
-};
 
 export default defineConfig({
   basePath: '/studio',
@@ -47,13 +34,8 @@ export default defineConfig({
     structureTool({ structure }),
     codeInput(),
     visionTool({ defaultApiVersion: apiVersion }),
-    presentationTool({
-      previewUrl: {
-        previewMode: {
-          enable: '/api/draft-mode/enable',
-        },
-      },
-    }),
+    
+   
  
   ],
 });

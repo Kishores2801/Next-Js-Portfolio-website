@@ -1,13 +1,14 @@
 "use client";
+
 import React, { useState, useEffect } from 'react';
-import { client } from '../../sanity/lib/client';  
+import { client } from '@/sanity/lib/client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { urlFor } from '@/sanity/lib/image';
 import { Post } from '@/sanity.types';
 import Tag from '../Elements/Tag';
 
-type Props = {}
+type Props = {};
 
 export default function BlogCoverSection({}: Props) {
   const [post, setPost] = useState<Post | null>(null);
@@ -21,60 +22,56 @@ export default function BlogCoverSection({}: Props) {
         slug
       }
     `;
-    
-    client.fetch(firstBlogQuery)
-      .then((data: Post) => {
-        setPost(data);
-      })
-      .catch(err => console.error(err)); // Handle errors if fetch fails
+
+    client
+      .fetch(firstBlogQuery)
+      .then((data: Post) => setPost(data))
+      .catch((err) => console.error(err));
   }, []);
 
   return (
-    <div className='mt-24 w-full flex justify-center'>
+    <div className="mt-16 w-full flex justify-center px-4">
       {post && post.mainImage ? (
-        <article className='relative w-[95%] lg:w-[1350px] mx-auto h-[70vh] sm:h-[85vh]'>
+        <article className="relative w-full max-w-[1350px] h-[60vh] sm:h-[75vh] rounded-2xl overflow-hidden">
           {/* Main Image */}
-          <div className='relative w-full h-full rounded-3xl overflow-hidden'>
-            <Image 
+          
+            <Image
               src={urlFor(post.mainImage).url()}
               alt={post.title || 'Featured Blog'}
-              width={3600}
-              height={800}
-              placeholder='blur'
+              fill
+              placeholder="blur"
               blurDataURL={urlFor(post.mainImage).url()}
-              className='w-full h-full object-cover object-center'
-              priority={true}
+              className="object-cover object-center w-full h-full"
+              priority
             />
-            {/* Gradient Overlay */}
-            <div className='absolute top-0 left-0 bottom-0 right-0 h-full bg-gradient-to-b from-transparent to-gray-950 rounded-3xl' />
-          </div>
-          
+   
+
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-950" />
+
           {/* Text Overlay */}
-          <div className='absolute bottom-4 left-4 p-4 text-white z-20 space-y-4'>
-            {/* Tag Component */}
-            <Tag/>
-            
-            {/* Post Title */}
-            {post.slug && post.title && (
-              <Link href={`/post/${post.slug.current}`}> 
-                <h1 className='mt-2 text-xl md:text-3xl font-bold capitalize cursor-pointer hover:underline'>
-                  <span className='bg-gradient-to-r from-blue-300 to-blue-500 bg-[length:0px_6px] hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-700'>
+          <div className="absolute bottom-4 left-4 p-4 text-white z-20 space-y-3">
+            <Tag />
+
+            {post.title && post.slug &&  (
+              <Link href={`/post/${post.slug.current}`}>
+                <h1 className="text-xl md:text-3xl font-bold capitalize cursor-pointer hover:underline">
+                  <span className="bg-gradient-to-r from-blue-300 to-blue-500 bg-[length:0px_4px] hover:bg-[length:100%_4px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500">
                     {post.title}
                   </span>
                 </h1>
               </Link>
             )}
 
-            {/* Post Description */}
             {post.description && (
-              <p className='hidden md:block text-[10px] md:text-[14px] lg:text-[16px] leading-snug'>
+              <p className="hidden sm:block text-xs sm:text-sm md:text-base leading-snug">
                 {post.description}
               </p>
             )}
           </div>
         </article>
       ) : (
-        <div>Loading...</div>
+        <div className="text-center">Loading...</div>
       )}
     </div>
   );
