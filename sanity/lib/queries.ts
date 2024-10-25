@@ -1,11 +1,34 @@
-// ./sanity/lib/queries.ts
+// ./src/sanity/lib/queries.ts
 
-import { groq } from "next-sanity";
 
-export const POSTS_QUERY = groq`*[_type == "post" && defined(slug)]`;
+import { defineQuery } from "next-sanity";
 
-export const POSTS_SLUG_QUERY = groq`*[_type == "post" && defined(slug.current)][]{
-  "params": { "slug": slug.current }
-}`;
+import { groq } from 'next-sanity';
 
-export const POST_QUERY = groq`*[_type == "post" && slug.current == $slug][0]`;
+export const POSTS_QUERY =
+  defineQuery(`*[_type == "post" && defined(slug.current)][0...12]{
+  _id, title, slug
+}`);
+
+export const POST_QUERY =
+  defineQuery(`*[_type == "post" && slug.current == $slug][0]{
+  title, body, mainImage
+}`);
+
+
+
+
+export const WORKS_QUERY = groq`
+  *[_type == "works"]{
+    _id,
+    title,
+    summary,
+    "imgUrl": image.asset->url,
+    projectLink,
+    githubLink,
+    tags,
+    technologies[]->{
+      title
+    }
+  }
+`;

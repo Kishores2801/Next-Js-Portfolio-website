@@ -1,15 +1,9 @@
-// ./src/pages/api/disable-draft.ts
+// ./src/app/api/draft-mode/disable/route.ts
 
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { draftMode } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
-export default function handle(
-  _req: NextApiRequest,
-  res: NextApiResponse<void>,
-): void {
-  // Exit the current user from "Draft Mode".
-  res.setDraftMode({ enable: false })
-
-  // Redirect the user back to the index page.
-  res.writeHead(307, { Location: '/' })
-  res.end()
+export function GET(request: NextRequest) {
+  draftMode().disable();
+  return NextResponse.redirect(new URL("/", request.url));
 }

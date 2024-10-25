@@ -1,81 +1,125 @@
 "use client";
-import Image from 'next/image';
-import Stax from '@/public/Stax.jpeg';
-import Sawtooth from '@/public/sawtooth.jpeg';
+
 import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { groq } from "next-sanity";
+import { client } from "@/sanity/lib/client";
+import Image from "next/image";
 
-type Props = {};
+type ExperienceItem = {
+  _id: string;
+  jobTitle: string;
+  company: string;
+  location: string;
+  dateStarted: string;
+  dateEnded?: string;
+  isCurrentlyWorkingHere: boolean;
+  companyImageUrl: string;
+  technologies: { name: string; imageUrl: string }[];
+  points: string[]; // Added points as an array of strings
+};
 
-export default function ExperienceCard({}: Props) {
+export default function ExperienceCard() {
+  const [experiences, setExperiences] = useState<ExperienceItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Sanity query to fetch experiences
+  const experienceQuery = groq`
+    *[_type == "Experience" && !(_id in path("drafts.**"))] | order(dateStarted desc) {
+      _id,
+      jobTitle,
+      company,
+      location,
+      dateStarted,
+      dateEnded,
+      isCurrentlyWorkingHere,
+      "companyImageUrl": companyImage.asset->url,
+      technologies[]-> {
+        "name": title,
+        "imageUrl": image.asset->url
+      },
+      points
+    }
+  `;
+
+  useEffect(() => {
+    const fetchExperiences = async () => {
+      try {
+        const data = await client.fetch(experienceQuery);
+        setExperiences(data);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchExperiences();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+
   return (
-    <article
-      className="flex flex-col rounded-lg items-center space-y-2 flex-shrink-0 
-        w-[85%] sm:w-[70%] md:w-[280px] xl:w-[350px] snap-center 
-        bg-gray-50 p-2 sm:p-3 md:p-4 hover:opacity-100 opacity-90 
-        cursor-pointer transition-opacity duration-200 overflow-hidden 
-        shadow-sm mx-auto"
-    >
-      {/* Image */}
-      <motion.img
-        src={Stax.src}
-        alt="Stax Logo"
-        className="rounded-full object-cover object-center"
-        width={50}
-        height={50}
-      />
-
-      {/* Text Content */}
-      <div className="px-1 sm:px-2 md:px-3">
-        <h1
-          className="text-xs sm:text-sm md:text-base font-medium 
-          text-center md:text-left text-gray-800"
+    <div className="space-y-6">
+      {experiences.map((experience) => (
+        <article
+          key={experience._id}
+          className="flex flex-col items-center space-y-3 w-[85%] sm:w-[280px] md:w-[300px] h-[250px] sm:h-[450px] bg-gray-50 p-4 
+                     hover:opacity-100 opacity-90 cursor-pointer transition-opacity duration-200 overflow-hidden shadow-md 
+                     mx-auto rounded-2xl"
         >
-          Senior Data Analyst at STAX LLC
-        </h1>
-        <p
-          className="font-semibold text-[10px] mt-1 text-center 
-          md:text-left text-gray-600"
-        >
-          STAX LLC
-        </p>
+          <motion.div className="relative w-20 h-20 rounded-full overflow-hidden mb-3">
+            <Image
+              src={experience.companyImageUrl}
+              alt={`${experience.company} Logo`}
+              layout="fill"
+              objectFit="cover"
+            />
+          </motion.div>
 
-        {/* Skill Icons */}
-        <div className="flex justify-center md:justify-start space-x-1 my-1.5">
-          <img
-            className="h-3 w-3 md:h-4 md:w-4 rounded-full"
-            src={Sawtooth.src}
-            alt="Skill Icon"
-          />
-          <img
-            className="h-3 w-3 md:h-4 md:w-4 rounded-full"
-            src={Sawtooth.src}
-            alt="Skill Icon"
-          />
-          <img
-            className="h-3 w-3 md:h-4 md:w-4 rounded-full"
-            src={Sawtooth.src}
-            alt="Skill Icon"
-          />
-          <img
-            className="h-3 w-3 md:h-4 md:w-4 rounded-full"
-            src={Sawtooth.src}
-            alt="Skill Icon"
-          />
-        </div>
+          <div className="px-3 text-center">
+            <h1 className="text-base font-medium text-gray-800">
+              {experience.jobTitle} at {experience.company}
+            </h1>
+            <p className="font-semibold text-xs mt-1 text-gray-600">
+              {experience.location}
+            </p>
 
-        <p className="uppercase py-1 text-[10px] sm:text-xs text-gray-500 text-center md:text-left">
-          Started work... - ended...
-        </p>
+            <div className="flex justify-center space-x-2 my-1">
+              {experience.technologies.map((tech, index) => (
+                <Image
+                  key={index}
+                  className="h-5 w-5 rounded-full"
+                  src={tech.imageUrl}
+                  alt={tech.name}
+                  width={50}
+                  height={50}
+                />
+              ))}
+            </div>
 
-        {/* Summary Points */}
-        <ul className="list-disc space-y-1 ml-3 text-[10px] sm:text-xs text-gray-800">
-          <li>Summary Points</li>
-          <li>Summary Points</li>
-          <li>Summary Points</li>
-          <li>Summary Points</li>
-          <li>Summary Points</li>
-        </ul>
-      </div>
-    </article>
+            <p className="uppercase py-1 text-xs text-gray-500">
+              {new Date(experience.dateStarted).toLocaleDateString()} -{" "}
+              {experience.isCurrentlyWorkingHere
+                ? "Present"
+                : new Date(experience.dateEnded!).toLocaleDateString()}
+            </p>
+
+            {/* Display Points Dynamically */}
+            {experience.points && experience.points.length > 0 ? (
+              <ul className="list-disc space-y-1 ml-3 text-[10px] sm:text-xs text-gray-800">
+                {experience.points.map((point, index) => (
+                  <li key={index}>{point}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-[10px] sm:text-xs text-gray-500 italic">
+                No points available.
+              </p>
+            )}
+
+          </div>
+        </article>
+      ))}
+    </div>
   );
 }

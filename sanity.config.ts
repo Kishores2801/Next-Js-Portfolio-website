@@ -1,6 +1,6 @@
 'use client';
 
-import { visionTool } from '@sanity/vision';
+
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { codeInput } from '@sanity/code-input';
@@ -8,6 +8,8 @@ import StudioLogo from './components/Studio Header/StudioLogo';
 import { apiVersion, dataset, projectId } from './sanity/env';
 import { schema } from './sanity/schemaTypes';
 import { structure } from './sanity/structure';
+import { visionTool } from '@sanity/vision';
+
 
 
 // Define a type for the Sanity document
@@ -34,6 +36,7 @@ export default defineConfig({
     structureTool({ structure }),
     codeInput(),
     visionTool({ defaultApiVersion: apiVersion }),
+    
     
    
  

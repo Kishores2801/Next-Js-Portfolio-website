@@ -8,7 +8,7 @@ import ProfileImg from '@/public/Kishore.png';
 const Hero = () => {
   const [text] = useTypewriter({
     words: [
-      "Hi, The Name's Kishore Shanmugam",
+      "Hi, I'm Kishore Shanmugam",
       "Data Analyst exploring the path to Data Science",
       "Guy Who Loves to Analyze and Solve Problems",
     ],

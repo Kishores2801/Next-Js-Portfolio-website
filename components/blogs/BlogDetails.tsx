@@ -47,7 +47,7 @@ export default async function BlogDetails({ params: { slug } }: Props) {
   }
 
   return (
-    <div className="relative  p-6 mt-8 bg-blue-500 text-black-100 dark:text-white rounded-lg flex flex-col sm:flex-row justify-between items-center gap-8">
+    <div className="relative  p-4 mt-8 bg-blue-500 text-black-100 dark:text-white rounded-lg flex flex-col sm:flex-row justify-between items-center gap-8">
       {/* Author Info Section */}
       {post.author && (
         <div className="flex items-center gap-4">
@@ -55,8 +55,8 @@ export default async function BlogDetails({ params: { slug } }: Props) {
             <Image
               src={post.author.image.asset.url}
               alt={post.author.name}
-              width={50}
-              height={50}
+              width={30}
+              height={30}
               className="rounded-full object-cover transition-transform transform hover:scale-105 hover:brightness-110"
             />
           )}

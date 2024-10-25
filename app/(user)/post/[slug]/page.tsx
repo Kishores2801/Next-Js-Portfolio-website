@@ -9,78 +9,130 @@ import { urlFor } from '@/sanity/lib/image';
 import Tag from '@/components/Elements/Tag';
 import { RichtextComponents } from '@/components/RichtextComponents';
 import { PortableText } from 'next-sanity';
+import siteMetaData from '@/utils/siteMetaData';
+import { Suspense, useMemo } from 'react';
+import Header from '@/components/Header/Header';
 
+// TypeScript Props
 type Props = {
   params: { slug: string };
 };
 
-export async function generateStaticParams() {
-  const slugsQuery = groq`*[_type == 'post' && defined(slug.current)]{ 'slug': slug.current }`;
-  const slugs = await client.fetch<{ slug: string }[]>(slugsQuery);
-
-  return slugs.map((post) => ({ slug: post.slug }));
+// Helper function for type safety
+function isPost(post: Post | null): post is Post {
+  return post !== null;
 }
 
+// Generate metadata dynamically
+export async function generateMetadata({ params: { slug } }: Props) {
+  const BlogQuery = groq`
+    *[_type == 'post' && slug.current == $slug][0]{
+      title,
+      description,
+      mainImage,
+      publishedAt
+    }
+  `;
+
+  const post = await client.fetch(BlogQuery, { slug });
+
+  if (!isPost(post)) {
+    return { title: 'Post not found' };
+  }
+
+  const imageUrl = post.mainImage ? urlFor(post.mainImage).url() : '';
+
+  return {
+    title: post.title,
+    description: post.description,
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      url: siteMetaData.siteUrl + `/post/${slug}`,
+      type: 'article',
+      siteName: siteMetaData.title,
+      publishedTime: post.publishedAt,
+      locale: 'en_US',
+      images: imageUrl ? [{ url: imageUrl }] : [],
+      author: post.author,
+    },
+  };
+}
+
+
+// Main blog page component
 export default async function BlogPage({ params: { slug } }: Props) {
   const BlogQuery = groq`
-  *[_type == 'post' && slug.current == $slug][0]{
-    title,
-    description,
-    body,
-    mainImage,
-    author->,
-    categories[]->
-  }
-`;
+    *[_type == 'post' && slug.current == $slug][0]{
+      title,
+      description,
+      body,
+      mainImage,
+      author->,
+      categories[]->
+    }
+  `;
 
-  const post: Post | null = await client.fetch(BlogQuery, { slug });
+  try {
+    const post: Post | null = await client.fetch(BlogQuery, { slug });
 
-  if (!post) return <p>Post not found</p>;
+    if (!isPost(post)) return <p>Post not found</p>;
 
-  return (
-    <div className="relative mt-16 dark:bg-black-100 bg-gray-200 dark:bg-grid-white/[0.035] bg-grid-black/[0.018] text-black flex flex-col overflow-x-hidden z-0">
-      <article>
-        <div className="w-full mb-8 p-4 sm:p-6 lg:p-10">
-          {/* Responsive Image Container */}
-          <div className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-hidden">
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-10 p-4">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold capitalize text-white">
-                {post.title}
-              </h1>
-              <p className="mt-4 italic px-4 sm:px-10 md:px-20 font-serif text-white">
-                {post.description}
-              </p>
-              <div className="mt-4">
-                <Tag />
+    const imageUrl = post.mainImage ? urlFor(post.mainImage).url() : '';
+
+    return (
+      <div className="relative mt-0 bg-gray-200 dark:bg-black-100 dark:bg-grid-white/[0.035] bg-grid-black/[0.018] text-black flex flex-col overflow-x-hidden z-0">
+        <Header/>
+        <article>
+          <div className="w-full mb-8 p-4 sm:p-6 lg:p-10">
+            <div className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-hidden">
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-10 p-4">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold capitalize text-white">
+                  {post.title}
+                </h1>
+                <p className="mt-4 italic px-4 sm:px-10 md:px-20 font-serif text-[18px] text-white">
+                  {post.description}
+                </p>
+                <div className="mt-4">
+                  <Tag />
+                </div>
               </div>
+
+              {post.mainImage ? (
+                <Image
+                  src={imageUrl}
+                  alt={post.title || 'Featured Blog'}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  placeholder="blur"
+                  blurDataURL={imageUrl}
+                  className="object-cover rounded"
+                  priority
+                />
+              ) : (
+                <div className="bg-gray-300 w-full h-full flex items-center justify-center">
+                  <p>No image available</p>
+                </div>
+              )}
             </div>
 
-            {post.mainImage && (
-              <Image
-                src={urlFor(post.mainImage).url()}
-                alt={post.title || 'Featured Blog'}
-                fill
-                placeholder="blur"
-                blurDataURL={urlFor(post.mainImage).url()}
-                className="object-cover rounded"
-                priority
-              />
+            <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 mt-8 mb-8">
+              <Suspense fallback={<div>Loading blog details...</div>}>
+                <BlogDetails params={{ slug }} />
+              </Suspense>
+            </div>
+
+            {post.body && (
+              <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 mb-8">
+                <PortableText value={post.body ?? []} components={RichtextComponents} />
+              </div>
             )}
           </div>
-
-          {/* Blog Content */}
-          <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 mt-8 mb-8">
-            <BlogDetails params={{ slug }} />
-          </div>
-
-          {/* Blog Body */}
-          {post.body && (
-            <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 mb-8">
-              <PortableText value={post.body ?? []} components={RichtextComponents} />
-            </div>
-          )}
-        </div>
-      </article>
-    </div>
-  );
+        </article>
+      </div>
+    );
+  } catch (error) {
+    console.error('Error fetching post:', error);
+    return <p>Error loading post. Please try again later.</p>;
+  }
 }

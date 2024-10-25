@@ -1,70 +1,60 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillEye, AiFillGithub } from 'react-icons/ai';
 import { motion } from 'framer-motion';
+import { client } from '@/sanity/lib/client';
+import Image from 'next/image';
+import { urlFor } from '@/sanity/lib/image';
+import { groq } from 'next-sanity';
 
-// Skill logo mapping
-const skillLogoMap: { [key: string]: string } = {
-  'React': 'https://via.placeholder.com/40?text=React',
-  'Node.js': 'https://via.placeholder.com/40?text=Node',
-  'D3.js': 'https://via.placeholder.com/40?text=D3',
-  'Tailwind CSS': 'https://via.placeholder.com/40?text=Tailwind',
-  'Python': 'https://via.placeholder.com/40?text=Python',
-  'Pandas': 'https://via.placeholder.com/40?text=Pandas',
-  'Matplotlib': 'https://via.placeholder.com/40?text=Matplotlib',
-  'Plotly': 'https://via.placeholder.com/40?text=Plotly',
-  'Sanity.io': 'https://via.placeholder.com/40?text=Sanity',
-  'JavaScript': 'https://via.placeholder.com/40?text=JS',
-  'CSS': 'https://via.placeholder.com/40?text=CSS',
-};
 
 interface WorkItem {
+  _id: string;
   title: string;
-  description: string;
+  summary: string;
   imgUrl: string;
   projectLink: string;
-  codeLink: string;
+  githubLink : string;
   tags: string[];
-  skills?: string[];
+
 }
 
-const sampleWorks: WorkItem[] = [
-  {
-    title: 'UK Railway Travel Dashboard',
-    description: 'This interactive web dashboard is designed to explore traveler behavior and operational performance in UK Railways.',
-    imgUrl: 'https://via.placeholder.com/150',
-    projectLink: 'https://example.com',
-    codeLink: 'https://github.com/example',
-    tags: ['Web App'],
-    skills: ['React', 'Node.js', 'D3.js', 'Tailwind CSS'],
-  },
-  {
-    title: 'Phone-Pe Dashboard',
-    description: 'PhonePe Dashboard offers insights from 2018–2023 data for operational oversight.',
-    imgUrl: 'https://via.placeholder.com/150',
-    projectLink: 'https://example.com',
-    codeLink: 'https://github.com/example',
-    tags: ['Data Visualization'],
-    skills: ['Python', 'Pandas', 'Matplotlib', 'Plotly'],
-  },
-  {
-    title: 'My Portfolio Web App',
-    description: 'The Current Portfolio app is built on React JS front end and Sanity Back end.',
-    imgUrl: 'https://via.placeholder.com/150',
-    projectLink: 'https://example.com',
-    codeLink: 'https://github.com/example',
-    tags: ['Web App'],
-    skills: ['React', 'Sanity.io', 'JavaScript', 'CSS'],
-  },
-];
-
 export default function Projects() {
-  const [works] = useState<WorkItem[]>(sampleWorks);
-  const [filterWork, setFilterWork] = useState<WorkItem[]>(sampleWorks);
+  const [works, setWorks] = useState<WorkItem[]>([]);
+  const [filterWork, setFilterWork] = useState<WorkItem[]>([]);
   const [activeFilter, setActiveFilter] = useState<string>('All');
   const [animateCard, setAnimateCard] = useState<{ y: number; opacity: number }>({ y: 0, opacity: 1 });
 
-  const uniqueCategories = Array.from(new Set(works.flatMap(work => work.tags)));
+  const WORKS_QUERY = groq`
+    *[_type == "works"]{
+      _id,
+      title,
+      summary,
+      "imgUrl": image.asset->url,
+      projectLink,
+      githubLink,
+      tags,
+      technologies[]->{
+        title,
+        "imageUrl": image.asset->url
+      }
+    }
+  `;
+
+  useEffect(() => {
+    const fetchWorks = async () => {
+      try {
+        const data: WorkItem[] = await client.fetch(WORKS_QUERY);
+        setWorks(data);
+        setFilterWork(data); // Initialize filtered work with all works
+      } catch (err) {
+        console.error("Error fetching data from Sanity:", err);
+      }
+    };
+    fetchWorks();
+  }, []);
+
+  const uniqueCategories = Array.from(new Set(works.flatMap((work) => work.tags)));
 
   const handleWorkFilter = (item: string) => {
     setActiveFilter(item);
@@ -72,7 +62,7 @@ export default function Projects() {
 
     setTimeout(() => {
       setAnimateCard({ y: 0, opacity: 1 });
-      setFilterWork(item === 'All' ? works : works.filter(work => work.tags.includes(item)));
+      setFilterWork(item === 'All' ? works : works.filter((work) => work.tags.includes(item)));
     }, 500);
   };
 
@@ -112,31 +102,50 @@ export default function Projects() {
         >
           {filterWork.map((work, index) => (
             <div
-              key={index}
+              key={work._id || index}
               className="w-[90%] sm:w-52 md:w-60 bg-white rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition-transform transform hover:-translate-y-1 text-center cursor-pointer overflow-hidden"
             >
               <div className="w-full h-48 sm:h-52 relative overflow-hidden rounded-t-xl">
-                <img src={work.imgUrl} alt={work.title} className="w-full h-full object-cover" />
+                {work.imgUrl ? (
+                  <Image
+                    src={urlFor(work.imgUrl).url()}
+                    alt={work.title || "Project Image"}
+                    layout="fill"
+                    objectFit="cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-300 flex items-center justify-center">
+                    <span>No Image</span>
+                  </div>
+                )}
                 <motion.div
                   whileHover={{ opacity: [0, 1] }}
                   transition={{ duration: 0.25, ease: 'easeInOut' }}
-                  className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 transition-opacity"
+                  className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center opacity-0 transition-opacity gap-4"
                 >
-                  <a href={work.projectLink} target="_blank" rel="noreferrer" className="m-2">
-                    <motion.div whileHover={{ scale: [1.1, 1] }} className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
-                      <AiFillEye className="text-black" />
-                    </motion.div>
-                  </a>
-                  <a href={work.codeLink} target="_blank" rel="noreferrer" className="m-2">
-                    <motion.div whileHover={{ scale: [1.1, 1] }} className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
-                      <AiFillGithub className="text-black" />
-                    </motion.div>
-                  </a>
+                  {work.projectLink && (
+                    <a href={work.projectLink} target="_blank" rel="noreferrer" className="m-2">
+                      <motion.div whileHover={{ scale: [1.1, 1] }} className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                        <AiFillEye className="text-black" />
+                      </motion.div>
+                    </a>
+                  )}
+                  {work.githubLink && (
+                    <a href={work.githubLink } target="_blank" rel="noreferrer" className="m-2">
+                      <motion.div whileHover={{ scale: [1.1, 1] }} className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+                        <AiFillGithub className="text-black" />
+                      </motion.div>
+                    </a>
+                  )}
                 </motion.div>
               </div>
               <div className="p-4">
-                <h4 className="text-lg font-semibold text-gray-800 mb-1">{work.title}</h4>
-                <p className="text-sm text-gray-600">{work.description}</p>
+                <h4 className="text-lg font-semibold text-gray-800 mb-1">{work.title || "Untitled Project"}</h4>
+
+                
+
+                <p className="text-[12px] text-gray-600">{work.summary || "No description available."}</p>
               </div>
             </div>
           ))}

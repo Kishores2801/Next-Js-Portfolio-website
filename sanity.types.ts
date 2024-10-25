@@ -68,6 +68,28 @@ export type Geopoint = {
   alt?: number;
 };
 
+export type Testimonial = {
+  _id: string;
+  _type: "testimonial";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  company?: string;
+  imgurl?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  feedback?: string;
+};
+
 export type Post = {
   _id: string;
   _type: "post";
@@ -136,6 +158,7 @@ export type Post = {
   } | {
     _key: string;
   } & Code>;
+  readingTime?: number;
 };
 
 export type Author = {
@@ -177,23 +200,6 @@ export type Author = {
   }>;
 };
 
-export type Category = {
-  _id: string;
-  _type: "category";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  description?: string;
-};
-
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
-};
-
 export type BlockContent = Array<{
   children?: Array<{
     marks?: Array<string>;
@@ -228,38 +234,31 @@ export type BlockContent = Array<{
   _key: string;
 } & Code>;
 
+export type Category = {
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  description?: string;
+};
+
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
 export type Skills = {
   _id: string;
   _type: "Skills";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  name?: string;
-  icon?: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  docid?: number;
-  showSkills?: boolean;
-};
-
-export type Works = {
-  _id: string;
-  _type: "works";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
   title?: string;
-  description?: string;
-  projectLink?: string;
-  GithubLink?: string;
+  progress?: number;
   image?: {
     asset?: {
       _ref: string;
@@ -271,8 +270,70 @@ export type Works = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+};
+
+export type Works = {
+  _id: string;
+  _type: "works";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  summary?: string;
+  technologies?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "Skills";
+  }>;
+  projectLink?: string;
+  GithubLink?: string;
   tags?: Array<"Web App" | "Data Visualization" | "Machine Learning & AI" | "Other">;
-  endDate?: string;
+};
+
+export type Experience = {
+  _id: string;
+  _type: "Experience";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  jobTitle?: string;
+  companyImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  company?: string;
+  location?: string;
+  dateStarted?: string;
+  dateEnded?: string;
+  isCurrentlyWorkingHere?: boolean;
+  technologies?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "Skills";
+  }>;
+  points?: Array<string>;
 };
 
 export type SanityImageCrop = {
@@ -332,38 +393,6 @@ export type SanityImageMetadata = {
   isOpaque?: boolean;
 };
 
-export type Experiences = {
-  _id: string;
-  _type: "experiences";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  year?: string;
-  works?: Array<{
-    companyName?: string;
-    position?: string;
-    startDate?: string;
-    endDate?: string;
-    description?: string;
-    _type: "workExperience";
-    _key: string;
-  }>;
-  showexperience?: boolean;
-};
-
-export type WorkExperience = {
-  _id: string;
-  _type: "workExperience";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  companyName?: string;
-  position?: string;
-  startDate?: string;
-  endDate?: string;
-  description?: string;
-};
-
 export type Code = {
   _type: "code";
   language?: string;
@@ -372,7 +401,7 @@ export type Code = {
   highlightedLines?: Array<number>;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Post | Author | Category | Slug | BlockContent | Skills | Works | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Experiences | WorkExperience | Code;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Testimonial | Post | Author | BlockContent | Category | Slug | Skills | Works | Experience | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Code;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: POSTS_QUERY
@@ -433,120 +462,11 @@ export type POST_QUERYResult = {
   } | null;
 } | null;
 
-// Source: ./app/(user)/post/[slug]/page.tsx
-// Variable: BlogQuery
-// Query: *[_type == 'post' && slug.current == $slug][0]{      ...,      description,      body,      mainImage,      author->,      categories[]->    }
-export type BlogQueryResult = {
-  _id: string;
-  _type: "post";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  description: string | null;
-  slug?: Slug;
-  author: {
-    _id: string;
-    _type: "author";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    name?: string;
-    slug?: Slug;
-    image?: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
-    bio?: Array<{
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
-      style?: "normal";
-      listItem?: never;
-      markDefs?: Array<{
-        href?: string;
-        _type: "link";
-        _key: string;
-      }>;
-      level?: number;
-      _type: "block";
-      _key: string;
-    }>;
-  } | null;
-  mainImage: {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  } | null;
-  categories: Array<{
-    _id: string;
-    _type: "category";
-    _createdAt: string;
-    _updatedAt: string;
-    _rev: string;
-    title?: string;
-    slug?: Slug;
-    description?: string;
-  }> | null;
-  publishedAt?: string;
-  body: Array<{
-    _key: string;
-  } & Code | {
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      openInNewTab?: boolean;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  } | {
-    asset?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-    };
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-    _key: string;
-  }> | null;
-} | null;
-
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"post\" && defined(slug.current)][0...12]{\n  _id, title, slug\n}": POSTS_QUERYResult;
     "*[_type == \"post\" && slug.current == $slug][0]{\n  title, body, mainImage\n}": POST_QUERYResult;
-    "\n    *[_type == 'post' && slug.current == $slug][0]{\n      ...,\n      description,\n      body,\n      mainImage,\n      author->,\n      categories[]->\n    }\n  ": BlogQueryResult;
   }
 }

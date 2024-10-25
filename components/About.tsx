@@ -43,7 +43,9 @@ function About({}: Props) {
             I’m eager to explore advanced analytics and machine learning to drive better outcomes.
             🤖 Let's collaborate on your next data-driven project!
           </p>
+
         </div>
+       
       </div>
     </motion.div>
   );

@@ -77,7 +77,11 @@ export default function RecentPost({}: Props) {
                 {/* Post Details */}
                 <div className="p-2">
                   <Link href={`/post/${post.slug.current}`}>
-                    <h3 className="text-black text-[16px] sm:text-[18px] font-semibold bg-gradient-to-r from-blue-300 to-blue-500 bg-[length:0px_3px] hover:bg-[length:100%_6px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500">
+                  <h3 
+                      className="inline-block text-black text-[16px] sm:text-[18px] font-semibold 
+                      bg-gradient-to-r from-blue-300 to-blue-500 bg-[length:0%_3px] hover:bg-[length:75%_3px] 
+                      bg-left-bottom bg-no-repeat transition-[background-size] duration-500 ease-in-out"
+                    >
                       {post.title}
                     </h3>
                   </Link>

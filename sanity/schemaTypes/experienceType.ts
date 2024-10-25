@@ -1,32 +1,69 @@
-import {CalendarIcon} from '@sanity/icons'
+// This Schema for is for work experience
+
+import {CaseIcon} from '@sanity/icons'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
-
-export const experienceType = defineType({
-    name: 'experiences',
-    title: 'Experiences',
+export const ExperienceType = defineType({
+    name: 'Experience',
+    title: 'Experience',
     type: 'document',
-    icon: CalendarIcon,
+    icon: CaseIcon,
     fields: [
-        defineField({
-            name: 'year',
-            title: 'Year',
-            type: 'string',
-          }),
-          defineField({
-            name: 'works',
-            title: 'Works',
+        {
+            name: "jobTitle",
+            title: "Job Title",
+            type:  "string"
+        },
+
+        {
+            name : "companyImage",
+            title: "Company Image",
+            type: "image",
+            options: {
+                hotspot: true,
+              }
+        },
+        {
+            name: "company",
+            title: "Company",
+            type: "string"
+        },
+        {
+            name: "location",
+            title: "Location",
+            type: "string"
+        },
+
+        {
+            name: "dateStarted",
+            title: "Date Started",
+            type: "date"
+        },
+        {
+            name: "dateEnded",
+            title: "Date Ended",
+            type: "date"
+        },
+        {
+            name: "isCurrentlyWorkingHere",
+            title: "Is Currently Working Here",
+            type: "boolean"
+        },
+
+        {
+            name: "technologies",
+            title: "Technologies",
+            type: "array",
+            of: [{type: "reference", to: {type: "Skills"}}]
+        },
+
+        {
+            name: 'points',
+            title: 'Points',
             type: 'array',
-            of: [{type: 'workExperience'}]
-          }),
+            of: [{type: 'string'}]
+        },
+    ],
+})
 
-          defineField({
-            name : 'showexperience',
-            title: 'Show Experience',
-            type: 'boolean',
-            description: 'Check to Show the field'
-
-          }),
-    ],})
-
-    export default experienceType;
+export default ExperienceType;

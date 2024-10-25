@@ -1,47 +1,42 @@
 // schema for Skills
-import {MasterDetailIcon} from '@sanity/icons'
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import { MasterDetailIcon } from '@sanity/icons';
+import { defineField, defineType, defineArrayMember } from 'sanity';
 
 export const skillsType = defineType({
-    name: 'Skills',
-    title: 'Skills',
-    type: 'document',
-    icon: MasterDetailIcon,
-    fields:[
-        {
-            name: 'name',
-            title: 'Name',
-            type: 'string',
-
-        },
-
-        {
-            name : 'icon',
-            title: 'Icon',
-            type: 'image',
-            options: {
-                hotspot: true,
-              },
-        },
-
-        {
-            name: "docid",
-            title: "ID",
-            type: "number",
-            initialValue: () => {
-                let d = new Date();
-                return d.getTime();
-              },
-        },
-        {
-            name : 'showSkills',
-            title: 'Show Skills',
-            type: 'boolean',
-            description: 'Check to Show the field'
-        }
-    
-    ],
-
-})
+  name: 'Skills',
+  title: 'Skills',
+  type: 'document',
+  icon: MasterDetailIcon,
+  fields: [
+    defineField({
+      name: 'title',
+      title: 'Title',
+      description: 'Title of the skill',
+      type: 'string',
+    }),
+    defineField({
+      name: 'progress',
+      title: 'Progress',
+      type: 'number',
+      description: 'Progress of skill from 0 to 100%',
+      validation: (Rule) => Rule.min(0).max(100),
+    }),
+    defineField({
+      name: 'image',
+      title: 'Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
+      name: 'toolspackages',
+      title: 'Tools or Packages',
+      type: 'array',
+      description: 'List of tools or packages used in the project',
+      of: [defineArrayMember({ type: 'string' })], // Array of strings for multiple tools
+    }),
+  ],
+});
 
 export default skillsType;

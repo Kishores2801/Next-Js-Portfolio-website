@@ -74,6 +74,9 @@ export const blockContentType = defineType({
     defineArrayMember({
       type: 'code',
       title: 'Code Block',
+      options: {
+        theme: 'monokai',
+      }
       
     }),
   ],

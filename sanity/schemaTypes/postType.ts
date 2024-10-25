@@ -69,15 +69,6 @@ export const postType = defineType({
       validation: (Rule) => Rule.min(1).max(60).error('Reading time must be between 1 and 60 minutes.'),
     }),
   ],
-  preview: {
-    select: {
-      title: 'title',
-      author: 'author.name',
-      media: 'mainImage',
-    },
-    prepare(selection) {
-      const { author } = selection;
-      return { ...selection, subtitle: author ? `by ${author}` : 'No author' };
-    },
-  },
+  
+  
 });

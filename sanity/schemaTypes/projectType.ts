@@ -1,7 +1,7 @@
 import { ProjectsIcon } from '@sanity/icons';
-import { defineArrayMember, defineField, defineType } from 'sanity';
+import { defineField, defineArrayMember, defineType } from 'sanity';
 
-export const workType = defineType({
+export const projectType = defineType({
   name: 'works',
   title: 'Works',
   type: 'document',
@@ -10,30 +10,31 @@ export const workType = defineType({
     defineField({
       name: 'title',
       title: 'Title',
-      type: 'string',
-    }),
-    defineField({
-      name: 'description',
-      title: 'Description',
-      type: 'string',
-    }),
-    defineField({
-      name: 'projectLink',
-      title: 'Project Link',
-      type: 'string',
-    }),
-    defineField({
-      name: 'GithubLink',
-      title: 'Github Link',
+      description: 'Title of the project',
       type: 'string',
     }),
     defineField({
       name: 'image',
       title: 'Image',
       type: 'image',
-      options: {
-        hotspot: true,
-      },
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: 'summary',
+      title: 'Summary',   
+      description: 'Summary of the project',
+      type: 'text',
+    }),
+    
+    defineField({
+      name: 'projectLink',
+      title: 'Project Link',
+      type: 'url',
+    }),
+    defineField({
+      name: 'githubLink',
+      title: 'Github Link',
+      type: 'url',
     }),
     defineField({
       name: 'tags',
@@ -55,15 +56,5 @@ export const workType = defineType({
         }),
       ],
     }),
-
-    defineField({
-      name: 'endDate',
-      title: 'End Date',
-      type: 'date',
-    }),
-
-
   ],
 });
-
-export default workType;
