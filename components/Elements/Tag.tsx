@@ -19,6 +19,7 @@ export default function Tag() {
   const [post, setPost] = useState<Post | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Fetching post categories on mount
   useEffect(() => {
     client
       .fetch<Post>(
@@ -26,12 +27,15 @@ export default function Tag() {
           "categories": categories[]->{ _id, title, slug } 
         }`
       )
-      .then((data) => data?.categories ? setPost(data) : setError("No categories found"))
+      .then((data) =>
+        data?.categories ? setPost(data) : setError("No categories found")
+      )
       .catch((err) => setError(err.message));
   }, []);
 
   if (error) return <p className="text-red-500">Error: {error}</p>;
-  if (!post || post.categories.length === 0) return <p>No categories available.</p>;
+  if (!post || post.categories.length === 0)
+    return <p>No categories available.</p>;
 
   return (
     <div className="p-4 sm:p-6">
@@ -40,6 +44,7 @@ export default function Tag() {
           <li key={_id}>
             <Link
               href={`/categories/${slug?.current || "#"}`}
+              passHref
               className="py-2 px-4 bg-black text-white rounded-full text-sm font-semibold border border-white hover:scale-105 transition-transform"
             >
               {title || "Unnamed Category"}

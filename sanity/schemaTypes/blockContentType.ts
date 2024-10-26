@@ -76,8 +76,51 @@ export const blockContentType = defineType({
       title: 'Code Block',
       options: {
         theme: 'monokai',
-      }
-      
+      },
+    }),
+
+    // Custom Table Block with Rows and Columns
+    defineArrayMember({
+      type: 'object',
+      name: 'table',
+      title: 'Table',
+      fields: [
+        {
+          name: 'columns',
+          type: 'array',
+          title: 'Columns',
+          of: [
+            defineArrayMember({
+              type: 'string',
+              title: 'Column Header',
+            }),
+          ],
+        },
+        {
+          name: 'rows',
+          type: 'array',
+          title: 'Rows',
+          of: [
+            defineArrayMember({
+              type: 'object',
+              name: 'row',
+              fields: [
+                {
+                  name: 'cells',
+                  type: 'array',
+                  title: 'Cells',
+                  of: [
+                    defineArrayMember({
+                      type: 'string',
+                      title: 'Cell Content',
+                    }),
+                  ],
+                },
+              ],
+            }),
+          ],
+        },
+      ],
     }),
   ],
 });

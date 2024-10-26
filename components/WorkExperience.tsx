@@ -77,7 +77,7 @@ function WorkExperience({ experience }: ExperienceCardProps) {
       {/* Experience Card Container */}
       <div className="w-full flex space-x-5 overflow-x-scroll p-10 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-blue-500">
       {experiences.map((experience) => (
-  <ExperienceCard key={experience._id}  />
+      <ExperienceCard key={experience._id}  />
 ))}
 
       </div>

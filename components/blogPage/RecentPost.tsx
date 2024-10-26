@@ -32,16 +32,17 @@ export default function RecentPost({}: Props) {
   return (
     <section className="w-full flex flex-col items-center mt-12 sm:mt-16 lg:mt-20">
       <div className="w-full max-w-[1000px] px-6 sm:px-5 lg:px-6">
-        <h2 className="font-bold capitalize text-xl text-black-100 dark:text-blue-500 sm:text-2xl lg:text-3xl mb-4 sm:mb-5 lg:mb-6 text-center">
+        <h2 className="font-bold capitalize text-xl text-black-100 dark:text-white sm:text-2xl lg:text-3xl mb-4 sm:mb-5 lg:mb-6 text-center">
           Recent Posts
         </h2>
 
         <Link
-          href="/categories"
+          href="/categories/all"
           className="text-blue-500 hover:underline mb-5 block text-center text-base sm:text-lg"
         >
           View All Categories
         </Link>
+
 
         {/* Responsive Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">

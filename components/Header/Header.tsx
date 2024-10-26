@@ -14,7 +14,7 @@ type Props = {};
 function Header({}: Props) {
   return (
     <header className="fixed top-0 left-0 w-full z-50 p-4 px-10 flex items-center justify-between 
-                       bg-gray-200 dark:bg-black-100 text-black dark:text-white 
+                       dark:bg-black-200/100 bg-gray-200/100 text-black dark:text-white 
                        backdrop-blur-[2px] transition-colors duration-300 dark:bg-grid-white/[0.035] bg-grid-black/[0.018]">
       {/* Logo */}
       <Logo />

@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation"; // Import hooks
-import { client } from "../../../sanity/lib/client";
-import { Post, Category } from "@/sanity.types";
+import { useRouter, useParams } from "next/navigation"; // Correct hooks for App Router
+import client from "@/sanity/lib/client";
+import { Post } from "@/sanity.types";
 import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
@@ -14,10 +14,17 @@ export interface Category {
   slug: { current: string };
 }
 
+export interface Post {
+  title: string;
+  mainImage?: any;
+  slug: { current: string };
+  categories: Category[];
+}
+
 export default function CategoriesPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const slug = searchParams.get("slug"); // Get the slug from query parameters
+  const params = useParams(); // Correctly access dynamic params
+  const slug = params?.slug || "all"; // Use the slug param or default to 'all'
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -40,46 +47,45 @@ export default function CategoriesPage() {
 
   // Fetch Posts
   useEffect(() => {
-    client
-      .fetch<Post[]>(`
-        *[_type == "post"]{
-          title, 
-          mainImage, 
-          slug,
-          categories[]->{ _id, title, slug }
-        }
-      `)
+    client.fetch<Post[]>(`
+      *[_type == "post"]{
+        title, 
+        mainImage, 
+        slug,
+        "categories": categories[]->{ _id, title, slug }
+      }
+    `)
       .then((data) => {
         setPosts(data);
-        setFilteredPosts(data);
+        setFilteredPosts(data); // Default to all posts
       })
       .catch(console.error);
   }, []);
 
-  // Apply Filter Based on Slug from Query Params
+  // Apply Filter Based on Slug from Params
   useEffect(() => {
-    if (slug) {
+    if (slug && slug !== "all") {
       setActiveCategory(slug);
       const filtered = posts.filter((post) =>
         post.categories?.some((cat) => cat.slug?.current === slug)
       );
       setFilteredPosts(filtered);
     } else {
-      setFilteredPosts(posts); // Show all posts if no category is selected
+      setFilteredPosts(posts); // Show all posts if no specific category
     }
   }, [slug, posts]);
 
   // Handle Category Clicks and Redirect
   const handleCategoryClick = (categorySlug: string | null) => {
-    setActiveCategory(categorySlug);
-    router.push(categorySlug ? `/categories?slug=${categorySlug}` : `/categories`);
+    setActiveCategory(categorySlug || "all");
+    router.push(categorySlug ? `/categories/${categorySlug}` : `/categories`);
   };
 
   return (
-    <main className="relative dark:bg-black-100 bg-gray-200 dark:bg-grid-white/[0.035] bg-grid-black/[0.018] text-black dark:to-blue-500 flex flex-col overflow-x-hidden z-0">
+    <main className="relative dark:bg-black-200/100 bg-gray-200/100 h-screen dark:bg-grid-white/[0.035] bg-grid-black/[0.018] text-black dark:to-blue-500 flex flex-col overflow-x-hidden z-0">
       <Header />
 
-      <div className="w-full px-2 sm:px-4 py-4 mt-16">
+      <div className="w-full  py-4 mt-16">
         <h1 className="text-2xl sm:text-3xl font-bold text-center text-white mt-3 mb-4">
           Categories
         </h1>

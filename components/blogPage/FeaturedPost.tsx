@@ -29,7 +29,7 @@ export default function FeaturedPost({}: Props) {
 
   return (
     <section className="w-full mt-32 px-4 md:px-8 lg:px-16 flex flex-col items-center justify-center">
-  <h2 className="font-bold capitalize text-xl text-black-100 dark:text-blue-500 sm:text-2xl lg:text-3xl mb-4 sm:mb-5 lg:mb-6 text-center">
+  <h2 className="font-bold capitalize text-xl text-black-100 dark:text-white sm:text-2xl lg:text-3xl mb-4 sm:mb-5 lg:mb-6 text-center">
     Featured Posts
   </h2>
 

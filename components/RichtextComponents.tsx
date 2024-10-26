@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import Link from "next/link";
@@ -31,7 +30,8 @@ export const RichtextComponents = {
 
       if (!code) return <p className="text-red-500">Code block is empty</p>;
 
-      const isDarkMode = typeof window !== "undefined" && 
+      const isDarkMode =
+        typeof window !== "undefined" &&
         window.matchMedia("(prefers-color-scheme: dark)").matches;
 
       return (
@@ -47,6 +47,38 @@ export const RichtextComponents = {
         </SyntaxHighlighter>
       );
     },
+
+    // Enhanced Table Rendering
+    table: ({ value }: any) => (
+      <table className="table-auto border-collapse border border-gray-300 dark:border-gray-600 w-full my-5">
+        <thead>
+          <tr>
+            {value?.columns?.map((column: string, index: number) => (
+              <th
+                key={index}
+                className="border border-gray-300 dark:border-gray-600 p-2 text-left font-semibold text-gray-900 dark:text-gray-300"
+              >
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {value?.rows?.map((row: any, rowIndex: number) => (
+            <tr key={rowIndex} className="border border-gray-300 dark:border-gray-600">
+              {row.cells?.map((cell: any, cellIndex: number) => (
+                <td
+                  key={cellIndex}
+                  className="border border-gray-300 dark:border-gray-600 p-2 text-gray-900 dark:text-gray-300"
+                >
+                  {cell || "N/A"}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    ),
   },
 
   block: {
