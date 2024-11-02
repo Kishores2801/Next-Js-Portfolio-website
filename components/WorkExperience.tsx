@@ -70,14 +70,15 @@ function WorkExperience({ experience }: ExperienceCardProps) {
       aria-label="Work Experience Section"
     >
       {/* Heading */}
-      <h3 className="absolute top-24 uppercase tracking-[15px] text-blue-500 text-lg sm:text-xl md:text-2xl">
+      <h3 className="absolute top-0 uppercase tracking-[15px] text-blue-500 text-lg sm:text-xl md:text-2xl">
         My Work Experience
       </h3>
 
       {/* Experience Card Container */}
-      <div className="w-full flex space-x-5 overflow-x-scroll p-10 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-blue-500">
+      <div className="w-full flex space-x-5 overflow-x-scroll p-10 snap-x snap-mandatory scrollbar-hide">
       {experiences.map((experience) => (
       <ExperienceCard key={experience._id}  />
+      
 ))}
 
       </div>

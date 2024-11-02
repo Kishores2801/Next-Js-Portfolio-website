@@ -12,7 +12,7 @@ export default function Blog({}: Props) {
 
   
   return (
-    <main className="relative  dark:bg-black-200/100 bg-gray-200/100 dark:bg-grid-white/[0.035] bg-grid-black/[0.018] text-black dark:to-blue-500 flex flex-col overflow-x-hidden z-0">
+    <main className="relative  dark:bg-black-100 bg-gray-100 dark:bg-grid-white/[0.035] bg-grid-black/[0.018] text-black dark:to-blue-500 flex flex-col overflow-x-hidden z-0">
         <Header/>
 
       <section className="flex-grow h-full snap-start flex items-center justify-center">

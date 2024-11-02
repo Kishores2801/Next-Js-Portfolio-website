@@ -12,6 +12,7 @@ import {postType} from './postType'
 import {authorType} from './authorType'
 import { blockContentType } from './blockContentType'
 import {testimonialType} from './testimonialType'
+import packagesTypes from './packagesTypes'
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -20,6 +21,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
           projectType,
           skillsType,
           categoryType,
+          packagesTypes,
 
           blockContentType,  postType, authorType,
           testimonialType

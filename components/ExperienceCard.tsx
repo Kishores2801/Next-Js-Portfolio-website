@@ -24,7 +24,6 @@ export default function ExperienceCard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Sanity query to fetch experiences
   const experienceQuery = groq`
     *[_type == "Experience" && !(_id in path("drafts.**"))] | order(dateStarted desc) {
       _id,
@@ -63,13 +62,13 @@ export default function ExperienceCard() {
   if (experiences.length === 0) return <p>No experiences available.</p>;
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-wrap justify-center space-y-6">
       {experiences.map((experience) => (
         <article
           key={experience._id}
-          className="flex flex-col items-center space-y-3 w-[85%] sm:w-[280px] md:w-[300px] h-[250px] sm:h-[450px] bg-gray-50 p-4 
+          className="flex flex-col items-center space-y-3 w-[90%] sm:w-[280px] md:w-[300px] h-auto sm:h-[450px] bg-gray-50 p-4 
                      hover:opacity-100 opacity-90 cursor-pointer transition-opacity duration-200 overflow-hidden shadow-md 
-                     mx-auto rounded-2xl"
+                     mx-2 rounded-2xl"
         >
           <motion.div className="relative w-20 h-20 rounded-full overflow-hidden mb-3">
             <Image
@@ -109,7 +108,6 @@ export default function ExperienceCard() {
                 : new Date(experience.dateEnded || "").toLocaleDateString()}
             </p>
 
-            {/* Display Points Dynamically */}
             {experience.points?.length > 0 ? (
               <ul className="list-disc space-y-1 ml-3 text-[10px] sm:text-xs text-gray-800">
                 {experience.points.map((point, index) => (

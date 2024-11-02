@@ -40,18 +40,18 @@ export default function Skill({
           width={20}
           height={20}
           aria-label={`Skill: ${title}`}
-          className="rounded-full border object-contain w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 
+          className="rounded-full border object-contain w-16 h-16 sm:w-18 sm:h-18 md:w-24 md:h-24 
                     group-hover:grayscale group-hover:brightness-110 transition duration-300 bg-white"
         />
       ) : (
-        <div className="w-18 h-18 sm:w-20 sm:h-20 md:w-24 md:h-24 flex items-center justify-center border rounded-full">
+        <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-24 md:h-24 flex items-center justify-center border rounded-full">
           <p className="text-gray-400">No Image</p>
         </div>
       )}
 
       {/* Circular Progress Indicator */}
       <svg
-        className="absolute w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 -rotate-90 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        className="absolute w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 -rotate-90 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         viewBox="0 0 36 36"
       >
         <circle
@@ -80,19 +80,17 @@ export default function Skill({
 
       {/* Hover Details with Tools and Packages */}
       <div className="absolute top-0 h-full w-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-        <div className="bg-white p-3 w-44 h-44 rounded-lg shadow-lg flex flex-col items-center justify-start">
-          <h4 className="text-lg font-bold text-gray-800 mb-1">{title}</h4>
-          <p className="text-blue-500 font-semibold mb-2">{progress}%</p>
+        <div className="bg-white p-2 sm:p-3 w-20 h-24 rounded-full shadow-lg flex flex-col items-center justify-center">
+          <h4 className="text-sm sm:text-base font-bold text-gray-800 mb-1">{title}</h4>
+          <p className="text-blue-500 font-semibold mb-2 text-xs sm:text-sm">{progress}%</p>
 
           {/* Tools and Packages List */}
-          {toolspackages.length > 0 ? (
-            <ul className="list-disc space-y-1 text-sm text-gray-600">
+          {toolspackages.length > 0 && (
+            <ul className="list-disc text-xs sm:text-sm text-gray-600 mt-1">
               {toolspackages.map((tool, index) => (
                 <li key={index}>{tool}</li>
               ))}
             </ul>
-          ) : (
-            <p className="text-sm italic text-gray-500"></p>
           )}
         </div>
       </div>

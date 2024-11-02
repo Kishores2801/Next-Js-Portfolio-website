@@ -29,13 +29,7 @@ export const skillsType = defineType({
         hotspot: true,
       },
     }),
-    defineField({
-      name: 'toolspackages',
-      title: 'Tools or Packages',
-      type: 'array',
-      description: 'List of tools or packages used in the project',
-      of: [defineArrayMember({ type: 'string' })], // Array of strings for multiple tools
-    }),
+   
   ],
 });
 

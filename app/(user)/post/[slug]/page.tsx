@@ -1,4 +1,3 @@
-// ./app/(user)/post/[slug]/page.tsx
 
 import { groq } from 'next-sanity';
 import { Post } from '@/sanity.types';
@@ -10,7 +9,7 @@ import Tag from '@/components/Elements/Tag';
 import { RichtextComponents } from '@/components/RichtextComponents';
 import { PortableText } from 'next-sanity';
 import siteMetaData from '@/utils/siteMetaData';
-import { Suspense, useMemo } from 'react';
+import { Suspense } from 'react';
 import Header from '@/components/Header/Header';
 
 // TypeScript Props
@@ -54,11 +53,9 @@ export async function generateMetadata({ params: { slug } }: Props) {
       publishedTime: post.publishedAt,
       locale: 'en_US',
       images: imageUrl ? [{ url: imageUrl }] : [],
-      author: post.author,
     },
   };
 }
-
 
 // Main blog page component
 export default async function BlogPage({ params: { slug } }: Props) {
@@ -81,16 +78,17 @@ export default async function BlogPage({ params: { slug } }: Props) {
     const imageUrl = post.mainImage ? urlFor(post.mainImage).url() : '';
 
     return (
-      <div className="relative mt-0 bg-gray-200 dark:bg-black-100 dark:bg-grid-white/[0.035] bg-grid-black/[0.018] text-black flex flex-col overflow-x-hidden z-0">
-        <Header/>
-        <article>
+      <div className="relative mt-0 bg-gray-200 dark:bg-black-100 dark:bg-grid-white/[0.035] bg-grid-black/[0.018] text-black dark:text-white flex flex-col overflow-x-hidden z-0">
+        <Header />
+
+        <article className="mt-20 flex flex-col">
           <div className="w-full mb-8 p-4 sm:p-6 lg:p-10">
-            <div className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-hidden">
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-10 p-4">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold capitalize text-white">
+            <div className="relative w-full h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[70vh] overflow-hidden">
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-10 p-4 bg-black/40">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold capitalize text-white">
                   {post.title}
                 </h1>
-                <p className="mt-4 italic px-4 sm:px-10 md:px-20 font-serif text-[18px] text-white">
+                <p className="mt-2 sm:mt-4 italic px-2 sm:px-8 font-serif text-sm sm:text-base md:text-lg text-white hidden sm:block">
                   {post.description}
                 </p>
                 <div className="mt-4">
@@ -106,7 +104,7 @@ export default async function BlogPage({ params: { slug } }: Props) {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   placeholder="blur"
                   blurDataURL={imageUrl}
-                  className="object-cover rounded"
+                  className="object-cover"
                   priority
                 />
               ) : (
@@ -116,14 +114,14 @@ export default async function BlogPage({ params: { slug } }: Props) {
               )}
             </div>
 
-            <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 mt-8 mb-8">
+            <div className="px-4 sm:px-6 md:px-8 lg:px-16 mt-8">
               <Suspense fallback={<div>Loading blog details...</div>}>
                 <BlogDetails params={{ slug }} />
               </Suspense>
             </div>
 
             {post.body && (
-              <div className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 mb-8">
+              <div className="px-4 sm:px-6 md:px-8 lg:px-16 mb-8">
                 <PortableText value={post.body ?? []} components={RichtextComponents} />
               </div>
             )}

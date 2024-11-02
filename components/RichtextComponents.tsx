@@ -7,12 +7,12 @@ import { monokai } from "react-syntax-highlighter/dist/esm/styles/hljs"; // Dark
 
 export const RichtextComponents = {
   types: {
-    // Handling image rendering with proper alt text and lazy loading
+    // Image component with responsive scaling and lazy loading
     image: ({ value }: any) => {
       if (!value?.asset?._ref) return <p>Image not available</p>;
 
       return (
-        <div className="relative w-full h-72 md:h-96 m-6 mx-auto">
+        <div className="relative w-full h-56 sm:h-72 md:h-96 m-4 mx-auto">
           <Image
             src={urlFor(value).url()}
             alt={value.alt || "Blog Post Image"}
@@ -24,7 +24,7 @@ export const RichtextComponents = {
       );
     },
 
-    // Code block with dynamic theme switching for dark and light mode
+    // Code block with responsive design and theme switching for dark mode
     code: ({ value }: any) => {
       const { language = "javascript", code } = value || {};
 
@@ -35,98 +35,105 @@ export const RichtextComponents = {
         window.matchMedia("(prefers-color-scheme: dark)").matches;
 
       return (
-        <SyntaxHighlighter
-          language={language}
-          style={isDarkMode ? monokai : docco} // Switch theme dynamically
-          showLineNumbers
-          wrapLines
-          className="rounded-md overflow-hidden p-4 transition-colors 
-            bg-gray-900 text-white dark:bg-gray-800"
-        >
-          {code.trim()} {/* Trimming to avoid trailing spaces */}
-        </SyntaxHighlighter>
+        <div className="overflow-x-auto my-4 rounded-md">
+          <SyntaxHighlighter
+            language={language}
+            style={isDarkMode ? monokai : docco}
+            showLineNumbers
+            wrapLines
+            className="rounded-md overflow-hidden p-4 bg-gray-900 text-white dark:bg-gray-800"
+          >
+            {code.trim()}
+          </SyntaxHighlighter>
+        </div>
       );
     },
 
-    // Enhanced Table Rendering
+    // Enhanced Table Rendering with horizontal scroll on mobile
     table: ({ value }: any) => (
-      <table className="table-auto border-collapse border border-gray-300 dark:border-gray-600 w-full my-5">
-        <thead>
-          <tr>
-            {value?.columns?.map((column: string, index: number) => (
-              <th
-                key={index}
-                className="border border-gray-300 dark:border-gray-600 p-2 text-left font-semibold text-gray-900 dark:text-gray-300"
-              >
-                {column}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {value?.rows?.map((row: any, rowIndex: number) => (
-            <tr key={rowIndex} className="border border-gray-300 dark:border-gray-600">
-              {row.cells?.map((cell: any, cellIndex: number) => (
-                <td
-                  key={cellIndex}
-                  className="border border-gray-300 dark:border-gray-600 p-2 text-gray-900 dark:text-gray-300"
+      <div className="overflow-x-auto my-4">
+        <table className="table-auto border-collapse border border-gray-300 dark:border-gray-600 w-full">
+          <thead>
+            <tr>
+              {value?.columns?.map((column: string, index: number) => (
+                <th
+                  key={index}
+                  className="border border-gray-300 dark:border-gray-600 p-2 text-left font-semibold text-gray-900 dark:text-gray-300 whitespace-nowrap"
                 >
-                  {cell || "N/A"}
-                </td>
+                  {column || "Header"}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {value?.rows?.map((row: any, rowIndex: number) => (
+              <tr key={rowIndex} className="border border-gray-300 dark:border-gray-600">
+                {row?.cells?.map((cell: any, cellIndex: number) => (
+                  <td
+                    key={cellIndex}
+                    className="border border-gray-300 dark:border-gray-600 p-2 text-gray-900 dark:text-gray-300 whitespace-nowrap"
+                  >
+                    {cell || "N/A"}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     ),
   },
 
   block: {
-    // Text and headings with dark mode support
+    // Responsive text and headings with dark mode support
     normal: ({ children }: any) => (
-      <p className="mb-5 text-gray-900 dark:text-gray-300">{children}</p>
+      <p className="mb-5 text-gray-900 dark:text-gray-300 text-sm sm:text-base">
+        {children}
+      </p>
     ),
     h1: ({ children }: any) => (
-      <h1 className="text-4xl font-bold mb-5 mt-4 text-gray-900 dark:text-blue-500">
+      <h1 className="text-3xl sm:text-4xl font-bold mb-5 mt-4 text-gray-900 dark:text-blue-500">
         {children}
       </h1>
     ),
     h2: ({ children }: any) => (
-      <h2 className="text-3xl font-bold mb-4 mt-3 text-gray-900 dark:text-blue-500">
+      <h2 className="text-2xl sm:text-3xl font-bold mb-4 mt-3 text-gray-900 dark:text-blue-500">
         {children}
       </h2>
     ),
     h3: ({ children }: any) => (
-      <h3 className="text-2xl font-bold mb-3 mt-3 text-gray-900 dark:text-blue-500">
+      <h3 className="text-xl sm:text-2xl font-bold mb-3 mt-3 text-gray-900 dark:text-blue-500">
         {children}
       </h3>
     ),
     h4: ({ children }: any) => (
-      <h4 className="text-xl font-bold mb-2 mt-2 text-gray-900 dark:text-blue-500">
+      <h4 className="text-lg sm:text-xl font-bold mb-2 mt-2 text-gray-900 dark:text-blue-500">
         {children}
       </h4>
     ),
     blockquote: ({ children }: any) => (
-      <blockquote className="border-l-4 pl-4 italic text-gray-600 dark:text-gray-400">
+      <blockquote className="border-l-4 pl-4 italic text-gray-600 dark:text-gray-400 text-sm sm:text-base">
         {children}
       </blockquote>
     ),
   },
 
   list: {
+    // Responsive lists with dark mode support
     bullet: ({ children }: any) => (
-      <ul className="ml-6 list-disc space-y-2 text-gray-900 dark:text-gray-300">
+      <ul className="ml-5 list-disc space-y-2 text-gray-900 dark:text-gray-300 text-sm sm:text-base">
         {children}
       </ul>
     ),
     number: ({ children }: any) => (
-      <ol className="ml-6 list-decimal space-y-2 text-gray-900 dark:text-gray-300">
+      <ol className="ml-5 list-decimal space-y-2 text-gray-900 dark:text-gray-300 text-sm sm:text-base">
         {children}
       </ol>
     ),
   },
 
   marks: {
+    // Responsive text styles with dark mode support
     strong: ({ children }: any) => (
       <strong className="font-bold text-gray-900 dark:text-gray-100">
         {children}
@@ -146,7 +153,7 @@ export const RichtextComponents = {
       </span>
     ),
 
-    // Link rendering with target and rel handling
+    // Link rendering with responsive style and target handling
     link: ({ value, children }: any) => {
       const { href, openInNewTab } = value;
       const target = openInNewTab ? "_blank" : "_self";

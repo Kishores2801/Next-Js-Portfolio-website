@@ -4,6 +4,7 @@ import ProfileImg from '@/public/Kishore.png';
 import Image from "next/image";
 import Link from "next/link";
 
+
 type Props = {}
 
 function About({}: Props) {
@@ -47,7 +48,10 @@ function About({}: Props) {
         </div>
        
       </div>
+
+     
     </motion.div>
+    
   );
 }
 

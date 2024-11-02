@@ -1,5 +1,6 @@
 import { defineType, defineArrayMember } from 'sanity';
 import { ImageIcon } from '@sanity/icons';
+import { table } from '@sanity/table';
 
 export const blockContentType = defineType({
   title: 'Block Content',
@@ -79,48 +80,13 @@ export const blockContentType = defineType({
       },
     }),
 
-    // Custom Table Block with Rows and Columns
+    // Table Block (using @sanity/table plugin)
     defineArrayMember({
-      type: 'object',
-      name: 'table',
+      type: 'table',
       title: 'Table',
-      fields: [
-        {
-          name: 'columns',
-          type: 'array',
-          title: 'Columns',
-          of: [
-            defineArrayMember({
-              type: 'string',
-              title: 'Column Header',
-            }),
-          ],
-        },
-        {
-          name: 'rows',
-          type: 'array',
-          title: 'Rows',
-          of: [
-            defineArrayMember({
-              type: 'object',
-              name: 'row',
-              fields: [
-                {
-                  name: 'cells',
-                  type: 'array',
-                  title: 'Cells',
-                  of: [
-                    defineArrayMember({
-                      type: 'string',
-                      title: 'Cell Content',
-                    }),
-                  ],
-                },
-              ],
-            }),
-          ],
-        },
-      ],
     }),
+    
+
+
   ],
 });
