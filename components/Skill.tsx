@@ -8,7 +8,7 @@ interface SkillProps {
   progress: number;
   image: { asset: { _ref: string } };
   directionLeft?: boolean;
-  toolspackages?: string[]; // Array of tools or packages
+  toolspackages?: string[];
 }
 
 export default function Skill({
@@ -37,21 +37,21 @@ export default function Skill({
           transition={{ duration: 1.2 }}
           src={urlFor(image).url()}
           alt={title}
-          width={20}
-          height={20}
+          width={15}
+          height={15}
           aria-label={`Skill: ${title}`}
-          className="rounded-full border object-contain w-16 h-16 sm:w-18 sm:h-18 md:w-24 md:h-24 
-                    group-hover:grayscale group-hover:brightness-110 transition duration-300 bg-white"
+          className="rounded-full border object-contain w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 
+                     group-hover:grayscale group-hover:brightness-110 transition duration-300 bg-white"
         />
       ) : (
-        <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-24 md:h-24 flex items-center justify-center border rounded-full">
-          <p className="text-gray-400">No Image</p>
+        <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex items-center justify-center border rounded-full bg-gray-100">
+          <p className="text-gray-400 text-xs sm:text-sm">No Image</p>
         </div>
       )}
 
       {/* Circular Progress Indicator */}
       <svg
-        className="absolute w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 -rotate-90 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        className="absolute w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 -rotate-90 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         viewBox="0 0 36 36"
       >
         <circle
@@ -65,7 +65,7 @@ export default function Skill({
         />
         <motion.circle
           className={color}
-          strokeWidth="2"
+          strokeWidth="4"
           strokeDasharray={`${progress}, 100`}
           strokeLinecap="round"
           fill="none"
@@ -80,18 +80,11 @@ export default function Skill({
 
       {/* Hover Details with Tools and Packages */}
       <div className="absolute top-0 h-full w-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-        <div className="bg-white p-2 sm:p-3 w-20 h-24 rounded-full shadow-lg flex flex-col items-center justify-center">
-          <h4 className="text-sm sm:text-base font-bold text-gray-800 mb-1">{title}</h4>
-          <p className="text-blue-500 font-semibold mb-2 text-xs sm:text-sm">{progress}%</p>
+        <div className="bg-white p-2 sm:p-3 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24  rounded-full shadow-lg flex flex-col items-center justify-start">
+          <h4 className="text-xs sm:text-sm font-semibold text-gray-800 mb-1 text-center">{title}</h4>
+          <p className="text-blue-500 font-semibold mb-1 text-xs sm:text-sm">{progress}%</p>
 
-          {/* Tools and Packages List */}
-          {toolspackages.length > 0 && (
-            <ul className="list-disc text-xs sm:text-sm text-gray-600 mt-1">
-              {toolspackages.map((tool, index) => (
-                <li key={index}>{tool}</li>
-              ))}
-            </ul>
-          )}
+          
         </div>
       </div>
     </motion.div>

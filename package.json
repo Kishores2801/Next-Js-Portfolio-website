@@ -33,6 +33,7 @@
     "@sanity/visual-editing": "^2.1.10",
     "@tabler/icons-react": "^3.19.0",
     "clsx": "^2.1.1",
+    "firebase": "^11.0.1",
     "framer-motion": "^11.11.1",
     "i": "^0.3.7",
     "lottie-react": "^2.4.0",

@@ -81,7 +81,7 @@ export default async function BlogPage({ params: { slug } }: Props) {
       <div className="relative mt-0 bg-gray-200 dark:bg-black-100 dark:bg-grid-white/[0.035] bg-grid-black/[0.018] text-black dark:text-white flex flex-col overflow-x-hidden z-0">
         <Header />
 
-        <article className="mt-20 flex flex-col">
+        <article className="mt-24 flex flex-col">
           <div className="w-full mb-8 p-4 sm:p-6 lg:p-10">
             <div className="relative w-full h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[70vh] overflow-hidden">
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-10 p-4 bg-black/40">
