@@ -1,5 +1,5 @@
 import { defineType, defineArrayMember } from 'sanity';
-import { ImageIcon } from '@sanity/icons';
+
 import { table } from '@sanity/table';
 
 export const blockContentType = defineType({
@@ -58,7 +58,6 @@ export const blockContentType = defineType({
     // Image Block with Alt Text Validation
     defineArrayMember({
       type: 'image',
-      icon: ImageIcon,
       options: { hotspot: true },
       fields: [
         {

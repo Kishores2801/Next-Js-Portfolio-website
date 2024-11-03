@@ -5,8 +5,6 @@ import { useEffect, useState } from "react";
 import { client } from "@/sanity/lib/client";
 import { groq } from "next-sanity";
 
-type Props = {};
-
 type ExperienceItem = {
   _id: string;
   jobTitle: string;
@@ -17,14 +15,14 @@ type ExperienceItem = {
   isCurrentlyWorkingHere: boolean;
   companyImageUrl: string;
   technologies: { name: string; imageUrl: string }[];
+  points: string[];  // Add points here
 };
 
 type ExperienceCardProps = {
   experience: ExperienceItem;
 };
 
-
-function WorkExperience({ experience }: ExperienceCardProps) {
+function WorkExperience() {
   const [experiences, setExperiences] = useState<ExperienceItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -41,7 +39,8 @@ function WorkExperience({ experience }: ExperienceCardProps) {
       technologies[]-> {
         "name": title,
         "imageUrl": image.asset->url
-      }
+      },
+      points  // Include points in the query
     }
   `;
 
@@ -76,11 +75,9 @@ function WorkExperience({ experience }: ExperienceCardProps) {
 
       {/* Experience Card Container */}
       <div className="w-full flex space-x-5 overflow-x-scroll p-10 snap-x snap-mandatory scrollbar-hide">
-      {experiences.map((experience) => (
-      <ExperienceCard key={experience._id}  />
-      
-))}
-
+        {experiences.map((experience) => (
+          <ExperienceCard key={experience._id} experience={experience} />
+        ))}
       </div>
     </motion.div>
   );

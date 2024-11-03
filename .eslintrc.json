@@ -1,26 +1,7 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "extends": [
-    "next/core-web-vitals",
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": 12,
-    "sourceType": "module"
-  },
-  "plugins": [
-    "@typescript-eslint",
-    "react"
-  ],
+  "extends": ["next/core-web-vitals", "next/typescript"],
   "rules": {
-    "@typescript-eslint/no-empty-object-type": "off", // Disable the no-empty-object-type rule
-    "@typescript-eslint/no-unused-vars": "off",       // Disable the no-unused-vars rule
-    "react/no-unescaped-entities": "off"              // Disable unescaped entities rule for JSX
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off"
   }
 }

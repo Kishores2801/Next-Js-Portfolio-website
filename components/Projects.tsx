@@ -67,7 +67,7 @@ export default function Projects() {
   };
 
   return (
-    <div className="flex flex-col relative min-h-screen text-center md:text-left max-w-9xl px-3 sm:px-6 md:px-8 justify-evenly mx-auto items-center overflow-hidden">
+    <div className="flex flex-col relative min-h-screen text-center md:text-left max-w-9xl px-3 sm:px-6 md:px-6 justify-evenly mx-auto items-center overflow-hidden">
       <h3 className="absolute top-12 uppercase tracking-[6px] sm:tracking-[8px] text-blue-500 text-lg sm:text-xl md:text-2xl">
         Project Showcase
       </h3>
