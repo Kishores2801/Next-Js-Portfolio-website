@@ -4,7 +4,7 @@ import { client } from '../../sanity/lib/client';
 import BlogLayoutOne from '../blogs/BlogLayoutOne';
 import BlogLayoutTwo from '../blogs/BlogLayoutTwo';
 import BlogLayoutThree from '../blogs/BlogLayoutThree';
-import { Post } from '@/sanity.types';
+import { Post as Post } from '@/sanity.types';
 
 type Props = {}
 

@@ -44,7 +44,7 @@ export default function Projects() {
   useEffect(() => {
     const fetchWorks = async () => {
       try {
-        const data: WorkItem[] = await client.fetch(WORKS_QUERY);
+        const data: WorkItem[] = await (client as any).fetch(WORKS_QUERY);
         setWorks(data);
         setFilterWork(data); // Initialize filtered work with all works
       } catch (err) {

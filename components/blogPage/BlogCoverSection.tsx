@@ -5,7 +5,7 @@ import { client } from '@/sanity/lib/client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { urlFor } from '@/sanity/lib/image';
-import { Post } from '@/sanity.types';
+import { Post  as Post} from '@/sanity.types';
 import Tag from '../Elements/Tag';
 
 type Props = {};

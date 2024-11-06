@@ -10,16 +10,16 @@ export default function RootLayout({
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="A modern portfolio and blog website built with Next.js, Tailwind CSS, and Sanity backend." />
-        <meta name="author" content="Your Name" />
+        <meta name="author" content="Kishore Shanmugam" />
         <meta name="keywords" content="portfolio, blog, web development, Next.js, Tailwind CSS, Sanity" />
-        <link rel="canonical" href="https://your-website-url.com" />
+        <link rel="canonical" href="https://www.kishore-portfolio-app.firebaseapp.com" />
 
         {/* Open Graph Metadata for Social Sharing */}
         <meta property="og:title" content="My Portfolio & Blog" />
         <meta property="og:description" content="Explore articles and projects on my modern portfolio website." />
-        <meta property="og:url" content="https://your-website-url.com" />
+        <meta property="og:url" content="https://www.kishore-portfolio-app.firebaseapp.com " />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://your-website-url.com/logo.png" />
+        
         <meta property="og:locale" content="en_US" />
 
         

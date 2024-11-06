@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation"; // Correct hooks for App Router
 import client from "@/sanity/lib/client";
-import { Post } from "@/sanity.types";
 import Link from "next/link";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
@@ -23,8 +22,8 @@ export interface Post {
 
 export default function CategoriesPage() {
   const router = useRouter();
-  const params = useParams(); // Correctly access dynamic params
-  const slug = params?.slug || "all"; // Use the slug param or default to 'all'
+  const params = useParams();
+  const slug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug || "all"; // Ensure slug is a string
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -85,7 +84,7 @@ export default function CategoriesPage() {
     <main className="relative dark:bg-black-200/100 bg-gray-200/100 h-screen dark:bg-grid-white/[0.035] bg-grid-black/[0.018] text-black dark:to-blue-500 flex flex-col overflow-x-hidden z-0">
       <Header />
 
-      <div className="w-full  py-4 mt-16">
+      <div className="w-full py-4 mt-16">
         <h1 className="text-2xl sm:text-3xl font-bold text-center text-white mt-3 mb-4">
           Categories
         </h1>

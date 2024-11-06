@@ -1,6 +1,6 @@
 
 import { groq } from 'next-sanity';
-import { Post } from '@/sanity.types';
+import { Post  as Post} from '@/sanity.types';
 import { client } from '@/sanity/lib/client';
 import BlogDetails from '@/components/blogs/BlogDetails';
 import Image from 'next/image';
@@ -33,7 +33,7 @@ export async function generateMetadata({ params: { slug } }: Props) {
     }
   `;
 
-  const post = await client.fetch(BlogQuery, { slug });
+  const post = await (client as any).fetch(BlogQuery, { slug });
 
   if (!isPost(post)) {
     return { title: 'Post not found' };
@@ -71,7 +71,7 @@ export default async function BlogPage({ params: { slug } }: Props) {
   `;
 
   try {
-    const post: Post | null = await client.fetch(BlogQuery, { slug });
+    const post: Post | null = await (client as any).fetch(BlogQuery, { slug });
 
     if (!isPost(post)) return <p>Post not found</p>;
 
